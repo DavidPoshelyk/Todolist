@@ -19,7 +19,7 @@ function App() {
         {id: v1(), title: "JS", isDone: true},
         {id: v1(), title: "JS", isDone: false},
         {id: v1(), title: "JS", isDone: true},
-        // {id: v1(), title: "JS", isDone: false},
+        {id: v1(), title: "JS", isDone: false},
     ]);
     let [filter, setFilter] = useState<FilterType>('all')
     const RemoveTask = (taskId: string) => {
@@ -37,8 +37,6 @@ function App() {
             title: NewTaskTitle,
             isDone: false
         }
-        // const copyState = [...tasks]
-        // copyState.push(NewTask)
         setTasks([NewTask, ...tasks])
     }
     let tasksFortodolist = tasks;

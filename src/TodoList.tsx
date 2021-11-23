@@ -12,36 +12,41 @@ type  PropsType = {
 
 
 export function TodoList(props: PropsType) {
-    const [title, setTitle] = useState<string>('')
-    const ChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
+
+    //Filter Tasks
+    const AllClick = () => {props.changeFilter('all')}
+    const ActiveClick = () => {props.changeFilter('active')}
+    const CompletedClick = () => {props.changeFilter('completed')}
+    //Add tasks
+    const ChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setLocalTitle(e.currentTarget.value)
     const KeyPressTitle = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
+        debugger;
+        if (e.key === "Enter" ) {
             Addtask();
         }
+    }
+    const [newTitle, setLocalTitle] = useState<string>('')
+    const Addtask = () => {
+        props.addTask(newTitle)
+        setLocalTitle('')
     }
 
     const tasksJSX = props.task.map(t =>
         <li key={t.id}>
             <input type="checkbox" checked={t.isDone}/>
             <span>{t.title} </span>
-            <button onClick={() => {
-                props.removetask(t.id)
-            }}>x
-            </button>
+            <button onClick={() => {props.removetask(t.id)}}>x</button>
         </li>
     )
 
-    const Addtask = () => {
-        props.addTask(title)
-        setTitle('')
-    }
+
 
     return (
         < div>
             <h3>{props.title}</h3>
             <div>
                 <input
-                    value={title}
+                    value={newTitle}
                     onChange={ChangeTitle}
                     onKeyPress={KeyPressTitle}
                 />
@@ -51,17 +56,11 @@ export function TodoList(props: PropsType) {
                 {tasksJSX}
             </ul>
             <div>
-                <button onClick={() => {
-                    props.changeFilter('all')
-                }}> All
+                <button onClick={AllClick}> All
                 </button>
-                <button onClick={() => {
-                    props.changeFilter('active')
-                }}> Active
+                <button onClick={ActiveClick}> Active
                 </button>
-                <button onClick={() => {
-                    props.changeFilter('completed')
-                }}> Completed
+                <button onClick={CompletedClick}> Completed
                 </button>
             </div>
         </div>
