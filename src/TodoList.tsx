@@ -1,5 +1,9 @@
-import React, {KeyboardEvent, ChangeEvent, useState} from 'react';
+import React, {useState} from 'react';
 import {FilterType, TaskType} from "./App";
+import ButtonAdd from './ButtonAdd';
+import ButtonFilter from './ButtonFilter';
+import InputTasks from './InputTasks';
+
 
 
 type  PropsType = {
@@ -7,27 +11,15 @@ type  PropsType = {
     task: Array<TaskType>
     removetask: (id: string) => void
     changeFilter: (value: FilterType) => void
-    addTask: (title: string) => void
+    addTask: (newTitle: string) => void
 }
 
 
-export function TodoList(props: PropsType) {
+export function TodoList({addTask,changeFilter,title,...props}: PropsType) {
 
-    //Filter Tasks
-    const AllClick = () => {props.changeFilter('all')}
-    const ActiveClick = () => {props.changeFilter('active')}
-    const CompletedClick = () => {props.changeFilter('completed')}
-    //Add tasks
-    const ChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setLocalTitle(e.currentTarget.value)
-    const KeyPressTitle = (e: KeyboardEvent<HTMLInputElement>) => {
-        debugger;
-        if (e.key === "Enter" ) {
-            Addtask();
-        }
-    }
     const [newTitle, setLocalTitle] = useState<string>('')
     const Addtask = () => {
-        props.addTask(newTitle)
+        addTask(newTitle)
         setLocalTitle('')
     }
 
@@ -43,26 +35,17 @@ export function TodoList(props: PropsType) {
 
     return (
         < div>
-            <h3>{props.title}</h3>
+            <h3>{title}</h3>
             <div>
-                <input
-                    value={newTitle}
-                    onChange={ChangeTitle}
-                    onKeyPress={KeyPressTitle}
-                />
-                <button onClick={Addtask}> +</button>
+                <InputTasks addtask={Addtask} newTitle={newTitle} setLocalTitle={setLocalTitle}/>
+                <ButtonAdd  Addtask={Addtask} name={'+'}/>
             </div>
             <ul>
                 {tasksJSX}
             </ul>
-            <div>
-                <button onClick={AllClick}> All
-                </button>
-                <button onClick={ActiveClick}> Active
-                </button>
-                <button onClick={CompletedClick}> Completed
-                </button>
-            </div>
+            <ButtonFilter    value={'all'}   name={"All"} changeFilter={changeFilter} />
+            <ButtonFilter    value={'completed'}   name={"Completed"} changeFilter={changeFilter} />
+            <ButtonFilter    value={'active'}   name={"Active"} changeFilter={changeFilter} />
         </div>
     )
 }
