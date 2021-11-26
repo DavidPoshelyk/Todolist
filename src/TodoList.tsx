@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {FilterType, TaskType} from "./App";
 import Button from './Button';
-import ButtonFilter from './ButtonFilter';
 import InputTasks from './InputTasks';
 
 
