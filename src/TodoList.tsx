@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import {FilterType, TaskType} from "./App";
-import ButtonAdd from './ButtonAdd';
+import Button from './Button';
 import ButtonFilter from './ButtonFilter';
 import InputTasks from './InputTasks';
-
 
 
 type  PropsType = {
@@ -15,8 +14,20 @@ type  PropsType = {
 }
 
 
-export function TodoList({addTask,changeFilter,title,...props}: PropsType) {
+export function TodoList({addTask, changeFilter, title, ...props}: PropsType) {
+    //Filter
+    const AllClick = () => {
+        changeFilter('all')
+    }
+    const CompletedClick = () => {
+        changeFilter('completed')
+    }
+    const ActiveClick = () => {
+        changeFilter('active')
+    }
 
+
+    //add
     const [newTitle, setLocalTitle] = useState<string>('')
     const Addtask = () => {
         addTask(newTitle)
@@ -27,25 +38,27 @@ export function TodoList({addTask,changeFilter,title,...props}: PropsType) {
         <li key={t.id}>
             <input type="checkbox" checked={t.isDone}/>
             <span>{t.title} </span>
-            <button onClick={() => {props.removetask(t.id)}}>x</button>
+            <button onClick={() => {
+                props.removetask(t.id)
+            }}>x
+            </button>
         </li>
     )
-
-
 
     return (
         < div>
             <h3>{title}</h3>
             <div>
                 <InputTasks addtask={Addtask} newTitle={newTitle} setLocalTitle={setLocalTitle}/>
-                <ButtonAdd  Addtask={Addtask} name={'+'}/>
+                <Button callBack={Addtask} name={'+'}/>
             </div>
             <ul>
                 {tasksJSX}
             </ul>
-            <ButtonFilter    value={'all'}   name={"All"} changeFilter={changeFilter} />
-            <ButtonFilter    value={'completed'}   name={"Completed"} changeFilter={changeFilter} />
-            <ButtonFilter    value={'active'}   name={"Active"} changeFilter={changeFilter} />
+            <Button callBack={CompletedClick} name={'completed'}/>
+            <Button callBack={ActiveClick} name={'active'}/>
+            <Button callBack={AllClick} name={'all'}/>
+
         </div>
     )
 }
