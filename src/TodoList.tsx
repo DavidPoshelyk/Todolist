@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {FilterType, TaskType} from "./App";
 import Button from './Button';
 import InputTasks from './InputTasks';
@@ -15,7 +15,7 @@ type  PropsType = {
 }
 
 
-export function TodoList({addTask, changeFilter, title,changeTaskStatus, ...props}: PropsType) {
+export function TodoList({addTask, changeFilter, title, changeTaskStatus, ...props}: PropsType) {
     //Filter
     const AllClick = () => {
         changeFilter('all')
@@ -27,13 +27,13 @@ export function TodoList({addTask, changeFilter, title,changeTaskStatus, ...prop
         changeFilter('active')
     }
 
-    const [error,setError] = useState<boolean>(false)
-    const errorMessage = error ? <div style={{color:'red'}}>Title is required!</div>:null
+    const [error, setError] = useState<boolean>(false)
+    const errorMessage = error ? <div style={{color: 'red'}}>Title is required!</div> : null
     //add
     const [newTitle, setLocalTitle] = useState<string>('')
     const Addtask = () => {
-       const trimmend = newTitle.trim()
-        if (trimmend){
+        const trimmend = newTitle.trim()
+        if (trimmend) {
             setError(false)
             addTask(newTitle)
             setLocalTitle('')
@@ -44,32 +44,34 @@ export function TodoList({addTask, changeFilter, title,changeTaskStatus, ...prop
 
     }
 
-    const tasksJSX = props.task.map(t =>
-        <li key={t.id} className={t.isDone?'is-done':''}>
-            <input type="checkbox" checked={t.isDone}
-            onChange={(e)=> changeTaskStatus(t.id, e.currentTarget.checked)}/>
-            <span>{t.title} </span>
-            <button onClick={() => {
-                props.removetask(t.id)
-            }}>x
-            </button>
-        </li>
-    )
+    const tasksJSX = props.task.map(t => {
+        const RemoveTask = () => {props.removetask(t.id)}
+        const ChangeInput = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(t.id, e.currentTarget.checked)
 
+        return (
+            <li key={t.id} className={t.isDone ? 'is-done' : ''}>
+                <input type="checkbox" checked={t.isDone} onChange={ChangeInput}/>
+                <span>{t.title} </span>
+                <button onClick={RemoveTask}>x</button>
+            </li>)
+
+    })
     return (
         < div>
             <h3>{title}</h3>
-            <div >
-                <InputTasks className={error?"error": ''} addtask={Addtask} newTitle={newTitle} setLocalTitle={setLocalTitle}/>
+            <div>
+                <InputTasks className={error ? "error" : ''} addtask={Addtask} newTitle={newTitle}
+                            setLocalTitle={setLocalTitle}/>
                 <Button callBack={Addtask} name={'+'}/>
                 {errorMessage}
             </div>
             <ul>
                 {tasksJSX}
             </ul>
-            <Button className={props.filter==="completed"? "active":''}  callBack={CompletedClick} name={'completed'}/>
-            <Button className={props.filter==="active"? "active":''} callBack={ActiveClick} name={'active'}/>
-            <Button className={props.filter==="all"? "active":''} callBack={AllClick} name={'all'}/>
+            <Button className={props.filter === "completed" ? "active" : ''} callBack={CompletedClick}
+                    name={'completed'}/>
+            <Button className={props.filter === "active" ? "active" : ''} callBack={ActiveClick} name={'active'}/>
+            <Button className={props.filter === "all" ? "active" : ''} callBack={AllClick} name={'all'}/>
 
         </div>
     )
