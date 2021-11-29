@@ -4,6 +4,7 @@ type TypeInputTasks = {
     addtask: () => void
     setLocalTitle: (newTitle: string) => void
     newTitle: string
+    className:string
 }
 
 const InputTasks = ({addtask, newTitle, setLocalTitle, ...props}: TypeInputTasks) => {
@@ -15,7 +16,7 @@ const InputTasks = ({addtask, newTitle, setLocalTitle, ...props}: TypeInputTasks
     }
 
     return (
-        <input
+        <input className={props.className}
             value={newTitle}
             onChange={ChangeTitle}
             onKeyPress={KeyPressTitle}

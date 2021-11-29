@@ -21,13 +21,18 @@ function App() {
         {id: v1(), title: "JS", isDone: true},
         {id: v1(), title: "JS", isDone: false},
     ]);
-    let [filter, setFilter] = useState<FilterType>('all')
+    const [filter, setFilter] = useState<FilterType>('all')
     const RemoveTask = (taskId: string) => {
         let tasks01 = tasks.filter(t => t.id !== taskId)
         setTasks(tasks01)
     }
     const ChangeFilter = (value: FilterType) => {
         setFilter(value);
+    }
+
+    const changeTaskStatus = (taskID:string, isDone: boolean) => {
+        const updatedTasks = tasks.map(t => t.id === taskID ? {...t,isDone: isDone}:t)
+        setTasks(updatedTasks)
     }
 
     const AddTask = (NewTaskTitle: string) => {
@@ -50,11 +55,16 @@ function App() {
 
     return (
         <div className="App">
-            <TodoList title="What to learn"
-                      addTask={AddTask}
-                      removetask={RemoveTask}
-                      task={tasksFortodolist}
-                      changeFilter={ChangeFilter}/>
+            <TodoList
+                title="What to learn"
+                addTask={AddTask}
+                removetask={RemoveTask}
+                task={tasksFortodolist}
+                changeFilter={ChangeFilter}
+                filter={filter}
+                changeTaskStatus={changeTaskStatus}
+            />
+
         </div>
 
     )
