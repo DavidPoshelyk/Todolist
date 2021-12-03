@@ -32,8 +32,8 @@ export function TodoList({addTask, changeFilter, title, changeTaskStatus, ...pro
     //add
     const [newTitle, setLocalTitle] = useState<string>('')
     const Addtask = () => {
-        const trimmend = newTitle.trim()
-        if (trimmend) {
+        const trimend = newTitle.trim()
+        if (trimend) {
             setError(false)
             addTask(newTitle)
             setLocalTitle('')
@@ -60,7 +60,7 @@ export function TodoList({addTask, changeFilter, title, changeTaskStatus, ...pro
         < div>
             <h3>{title}</h3>
             <div>
-                <InputTasks className={error ? "error" : ''} addtask={Addtask} newTitle={newTitle}
+                <InputTasks className={error ? "error" : ''} addtask={Addtask} setError={setError}newTitle={newTitle}
                             setLocalTitle={setLocalTitle}/>
                 <Button callBack={Addtask} name={'+'}/>
                 {errorMessage}

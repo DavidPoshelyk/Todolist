@@ -5,11 +5,13 @@ type TypeInputTasks = {
     setLocalTitle: (newTitle: string) => void
     newTitle: string
     className:string
+    setError:(error:boolean)=>void
 }
 
-const InputTasks = ({addtask, newTitle, setLocalTitle, ...props}: TypeInputTasks) => {
+const InputTasks = ({addtask, newTitle, setLocalTitle,setError, ...props}: TypeInputTasks) => {
     const ChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setLocalTitle(e.currentTarget.value)
     const KeyPressTitle = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(false)
         if (e.key === "Enter") {
             addtask();
         }
