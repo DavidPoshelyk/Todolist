@@ -11,7 +11,7 @@ type todolistsType = {
     filter:FilterValuesType
 }
 type TasksStateType = {
-    [key: string]: Array<TaskType>
+    [key: string]: TaskType[]
 }
 
 
