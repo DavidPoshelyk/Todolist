@@ -83,6 +83,16 @@ function App() {
         setTodolists([NewTasks,...todolists])
         setTasks({...tasks, [Id]:[]})
     }
+    const EditableApp = (todolistID: string, id: string, title: string) => {
+
+        setTasks({...tasks, [todolistID]:tasks[todolistID].map(m=> m.id == id? {...m, title }:m)})
+
+    }
+    const RemoveTitleApp = (todolistID: string, title: string) => {
+        setTodolists([...todolists].map(m => m.id === todolistID? {...m, title}: m))
+        console.log(title)
+    }
+
 
 
     return (
@@ -114,6 +124,8 @@ function App() {
                         changeTaskStatus={changeStatus}
                         filter={m.filter}
                         RemoveTodolists={RemoveTodolists}
+                        EditableApp={EditableApp}
+                        RemoveTitleApp={RemoveTitleApp}
                     />
                 )}
             )}

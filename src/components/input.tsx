@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import React, {ChangeEvent,KeyboardEvent, useState } from 'react';
 
 type TypeInput = {
@@ -36,7 +37,9 @@ const Input = (props:TypeInput) => {
                    onKeyPress={onKeyPressHandler}
                    className={error ? "error" : ""}
             />
-            <button onClick={addTask}>+</button>
+            <Button  style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
+                     variant="contained"onClick={addTask}>+</Button>
+
             {error && <div className="error-message">{error}</div>}
         </div>
     );
