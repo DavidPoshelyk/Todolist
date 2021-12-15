@@ -1,7 +1,13 @@
+import { pink } from '@mui/material/colors';
+import { Button } from '@material-ui/core';
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from './App';
 import Input from './components/input';
 import Editablespan from './Editablespan';
+import './App.css'
+import { ToggleButtonGroup } from '@material-ui/core';
+import { ToggleButton } from '@material-ui/core';
+import { Checkbox } from '@material-ui/core';
 
 
  export type TaskType = {
@@ -20,6 +26,8 @@ type PropsType = {
     filter: FilterValuesType
     todolistID:string
     RemoveTodolists: (todolistID: string)=> void
+    EditableApp:(todolistID:string, id: string, title: string)=> void
+    RemoveTitleApp:(todolistID: string, title: string) => void
 }
 
 export function Todolist(props: PropsType) {
@@ -54,14 +62,18 @@ export function Todolist(props: PropsType) {
     const  callbackHandler = (title: string) => {
         props.addTask(props.todolistID, title)
      }
+   const RemoveTitle = (title: string) => {
+       props.RemoveTitleApp(props.todolistID, title)
 
+   }
+    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+    return(
+        <div >
 
-    return <div>
-        <h3>{props.title}
-        <button onClick={()=> props.RemoveTodolists(props.todolistID)}>X</button>
-        </h3>
-        <div>
-          <Input callbackHandler={callbackHandler}/>
+               <Editablespan  title={props.title} EditTodolist={(title)=>  RemoveTitle(title)} />
+             <button onClick={()=> props.RemoveTodolists(props.todolistID)}>X</button>
+
+            <Input callbackHandler={callbackHandler}/>
             {/*<input value={title}*/}
             {/*       onChange={onChangeHandler}*/}
             {/*       onKeyPress={onKeyPressHandler}*/}
@@ -69,7 +81,7 @@ export function Todolist(props: PropsType) {
             {/*/>*/}
             {/*<button onClick={addTask}>+</button>*/}
             {/*{error && <div className="error-message">{error}</div>}*/}
-        </div>
+
         <ul>
             {
                 props.tasks.map(t => {
@@ -77,24 +89,35 @@ export function Todolist(props: PropsType) {
                     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
                         props.changeTaskStatus(props.todolistID, t.id, e.currentTarget.checked);
                     }
+                    const EditTodolist = (title: string) => {
+                        props.EditableApp(props.todolistID, t.id, title)
 
+                    }
                     return <li key={t.id} className={t.isDone ? "is-done" : ""}>
-                        <input type="checkbox"
-                               onChange={onChangeHandler}
-                               checked={t.isDone}/>
-                        <Editablespan title={t.title} />
-                        <button onClick={onClickHandler}>x</button>
+                        <div style={{display:'inline-flex'}} >
+                        <Checkbox onChange={onChangeHandler} checked={t.isDone} {...label} defaultChecked color="secondary" />
+                        <Editablespan title={t.title} EditTodolist={EditTodolist} />
+                        <Button style={{maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px'}}
+                                 variant="contained" onClick={onClickHandler}>X</Button>
+                        </div>
                     </li>
                 })
             }
         </ul>
         <div>
-            <button className={props.filter === 'all' ? "active-filter" : ""}
-                    onClick={onAllClickHandler}>All</button>
-            <button className={props.filter === 'active' ? "active-filter" : ""}
-                onClick={onActiveClickHandler}>Active</button>
-            <button className={props.filter === 'completed' ? "active-filter" : ""}
-                onClick={onCompletedClickHandler}>Completed</button>
+            <ToggleButtonGroup color="primary" value={props.filter} exclusive >
+                    <ToggleButton value="all" onClick={onAllClickHandler}>All</ToggleButton>
+                    <ToggleButton value="active" onClick={onActiveClickHandler}>Active</ToggleButton>
+                    <ToggleButton value="completed" onClick={onCompletedClickHandler}>Completed</ToggleButton>
+                </ToggleButtonGroup>
+
+
+
+
+
+
+
         </div>
     </div>
+    )
 }
