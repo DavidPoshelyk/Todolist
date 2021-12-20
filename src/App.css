@@ -21,7 +21,25 @@
 
 .is-done {
   opacity: 0.5;
+  margin-left: 2px;
 }
 .inputTodolist{
   display: inline-flex;
 }
+.inputAddList{
+  margin: 0px;
+}
+.editableSpanList{
+  margin-top: 5px;
+  margin-left: 20px;
+  font-family: Arial;
+  font-size: x-large;
+  display: inline-flex;
+}
+.spanInput{
+  font-size: x-large;
+}
+.ul{
+  margin-left: 2px;
+}
+

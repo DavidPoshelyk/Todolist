@@ -3,6 +3,12 @@ import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
 import Input from './components/input';
+import SearchAppBar from './SearchAppBar';
+import { Fab } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import InputAddList from './InputAddList';
+
+
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -14,8 +20,6 @@ type todolistsType = {
 type TasksStateType = {
     [key: string]: TaskType[]
 }
-
-
 
 function App() {
 
@@ -47,8 +51,6 @@ function App() {
 
 
     function removeTask(todolistID: string, id: string) {
-        // let filteredTasks = tasks.filter(t => t.id != id);
-        // setTasks(filteredTasks);
         setTasks({...tasks, [todolistID]:tasks[todolistID].filter(m=> m.id !== id)})
     }
 
@@ -58,15 +60,8 @@ function App() {
     }
 
     function changeStatus(todolistID: string, taskId: string, isDone: boolean) {
-
-
-
-         setTasks({...tasks, [todolistID]:tasks[todolistID].map(f => f.id === taskId ? {...f, isDone} : f)})
+        setTasks({...tasks, [todolistID]:tasks[todolistID].map(f => f.id === taskId ? {...f, isDone} : f)})
     }
-
-
-
-
 
 
     function changeFilter(todolistID: string, value: FilterValuesType) {
@@ -95,12 +90,12 @@ function App() {
 
 
 
-    return (
-        <div className="App">
+    return (<div >
 
-            <Input callbackHandler={(title:string)=>AddTodolists(title) }/>
-
-            {todolists.map(m=> {
+            <SearchAppBar/>
+            <InputAddList AddTodolists={AddTodolists} />
+            <div className="App">
+                {todolists.map(m=> {
                 let tasksForTodolist = tasks[m.id];
 
                 if (m.filter === "active") {
@@ -110,9 +105,8 @@ function App() {
                     tasksForTodolist = tasks[m.id].filter(t => t.isDone === true);
                 }
 
-
-
                 return(
+
                     <Todolist
                         todolistID={m.id}
                         key={m.id}
@@ -132,7 +126,10 @@ function App() {
 
 
         </div>
+        </div>
     );
 }
 
 export default App;
+
+
