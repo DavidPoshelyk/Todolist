@@ -6,7 +6,7 @@ import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typogr
 import {AddItemForm} from "./AddItemForm";
 import {Menu} from "@mui/icons-material";
 import {addTodolistAC, changeFilterAC, changeTodolistTitleAC, ReducerList, removeTodolistAC } from './Reducer/Reducer-List';
-import {addTaskAC, addTaskList, changeStatusAC, changeTaskTitleAC, ReducerTask, removeTaskAC } from './Reducer/Reducer-Task';
+import {addTaskAC, addTaskList, changeStatusAC, changeTaskTitleAC, deleteTaskListAC, ReducerTask, removeTaskAC } from './Reducer/Reducer-Task';
 
 
 export type FilterValuesType = "all" | "active" | "completed";
@@ -20,6 +20,8 @@ export  type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
+export let todolistId1 = v1();
+export let todolistId2 = v1();
 
 function App() {
     function removeTask(id: string, todolistId: string) {
@@ -47,6 +49,7 @@ function App() {
 
     function removeTodolist(id: string) {
         dispatchList(removeTodolistAC(id))
+        dispatchTask(deleteTaskListAC(id))
             //???  delete tasks[id];
         // засунем в стейт список тудулистов, id которых не равны тому, который нужно выкинуть
         // setTodolists(todolists.filter(tl => tl.id != id));
@@ -61,8 +64,7 @@ function App() {
 
     }
 
-    let todolistId1 = v1();
-    let todolistId2 = v1();
+
 
     let [todolists, dispatchList] = useReducer(ReducerList,[
         {id: todolistId1, title: "What to learn", filter: "all"},

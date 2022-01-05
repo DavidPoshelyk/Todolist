@@ -10,6 +10,7 @@ export const ReducerTask = (tasks:TasksStateType, actoin:typeAction) => {
            tasks[actoin.todolistId] = remove.filter(f=> f.id != actoin.id);
            return {...tasks}}
        case 'ADD-TASK': {
+
            let task:TaskType = {id: v1(), title: actoin.title, isDone: false};
            let todolistTasks = tasks[actoin.todolistId];
            tasks[actoin.todolistId] = [task, ...todolistTasks];
@@ -25,13 +26,18 @@ export const ReducerTask = (tasks:TasksStateType, actoin:typeAction) => {
            if (task) {task.title = actoin.newTitle;}
            return {...tasks}
        }
+       case "DELETE-TASK-LIST": {
+           delete  tasks[actoin.id]
+           console.log({...tasks})
+           return {...tasks}
+       }
 
 
        default:return tasks
    }
 };
 
-type typeAction = addTaskACType|removeTaskACType|addTaskType|changeStatusACType|changeTaskTitleACType
+type typeAction = addTaskACType|removeTaskACType|addTaskType|changeStatusACType|changeTaskTitleACType|deleteTaskListACType
 
 
 type addTaskACType  = ReturnType<typeof addTaskList>
@@ -39,7 +45,9 @@ type removeTaskACType = ReturnType<typeof removeTaskAC>
 type addTaskType = ReturnType<typeof addTaskAC>
 type changeStatusACType = ReturnType<typeof changeStatusAC>
 type changeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>
+type deleteTaskListACType = ReturnType<typeof deleteTaskListAC>
 export const addTaskList = (newId:string) => {return{type:'ADD-TASK-LIST', newId }as const}
+export const deleteTaskListAC = (id:string) => {return{type:'DELETE-TASK-LIST', id }as const}
 export const removeTaskAC = (id: string, todolistId: string) => {return{type:'REMOVE-TASK', id, todolistId}as const}
 export const addTaskAC = (title: string, todolistId: string) => {return{type:'ADD-TASK', title, todolistId}as const}
 export const changeStatusAC = (id: string, isDone: boolean, todolistId: string) => {return{type:'CAHNGE-STATUS', id, isDone, todolistId}as const}
