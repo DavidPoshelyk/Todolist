@@ -2,8 +2,9 @@ import React from 'react';
 import { v1 } from 'uuid';
 import { TasksStateType } from '../App';
 import { TaskType } from '../Todolist';
+let initialState:TasksStateType = {}
 
-export const ReducerTask = (tasks:TasksStateType, actoin:typeAction) => {
+export const ReducerTask = (tasks:TasksStateType = initialState, actoin:typeAction) => {
    switch (actoin.type) {
        case 'ADD-TASK-LIST' : {return {...tasks, [actoin.newId]:[]}}
        case 'REMOVE-TASK':{ let remove  = tasks[actoin.todolistId]

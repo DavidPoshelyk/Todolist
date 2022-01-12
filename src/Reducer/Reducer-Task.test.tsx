@@ -1,40 +1,43 @@
 import { v1 } from 'uuid';
-import { TasksStateType, todolistId1, todolistId2, TodolistType } from '../App';
+import { TasksStateType,  TodolistType } from '../App';
 import {ReducerList, removeTodolistAC } from './Reducer-List';
 import {addTaskAC, deleteTaskListAC, ReducerTask, removeTaskAC } from './Reducer-Task';
 
+let  todolistId1:string = v1()
+let  todolistId2:string = v1()
+let statelist: Array<TodolistType>
+let statetasks: TasksStateType
+let id1:string = v1()
+let id2:string = v1()
+let id3:string = v1()
+let id4:string = v1()
+
+beforeEach(()=> {
+     statelist = [
+            {id: todolistId1, title: "What to learn", filter: "all"},
+            {id: todolistId2, title: "What to buy", filter: "all"}
+        ]
+    statetasks = {
+            [todolistId1]: [
+                {id: id1, title: "HTML&CSS", isDone: true},
+                {id: id2, title: "JS", isDone: true}
+            ],
+            [todolistId2]: [
+                {id: id3 , title: "Milk", isDone: true},
+                {id: id4, title: "React Book", isDone: true}
+            ]
+        }
+    }
+)
 
 test('correct task should be deleted from correct array', () => {
-    const startState: TasksStateType = {
-        "todolistId1": [
-            {id: "1", title: "CSS", isDone: false},
-            {id: "2", title: "JS", isDone: true},
-            {id: "3", title: "React", isDone: false}
-        ],
-        "todolistId2": [
-            {id: "1", title: "bread", isDone: false},
-            {id: "2", title: "milk", isDone: true},
-            {id: "3", title: "tea", isDone: false}
-        ]
-    };
-
-    const action = removeTaskAC("2", "todolistId2");
-    // const addTaskAC = (title: string, todolistId: string) => {return{type:'ADD-TASK', title, todolistId}as const}
 
 
-    const endState = ReducerTask(startState, action)
+    const action = removeTaskAC(id1, todolistId1);
+    const endState = ReducerTask(statetasks, action)
 
-    expect(endState).toEqual({
-        "todolistId1": [
-            {id: "1", title: "CSS", isDone: false},
-            {id: "2", title: "JS", isDone: true},
-            {id: "3", title: "React", isDone: false}
-        ],
-        "todolistId2": [
-            {id: "1", title: "bread", isDone: false},
-            {id: "3", title: "tea", isDone: false}
-        ]
-    });
+    expect(endState).not.toBe({[todolistId1]:{id: id1, title: "HTML&CSS", isDone: true}});
+    expect(endState).toBe({[todolistId1]:{id: id2, title: "JS", isDone: true}});
 });
 test('add task ', () => {
     const startState: TasksStateType = {
