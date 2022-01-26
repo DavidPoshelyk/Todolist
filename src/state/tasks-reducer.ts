@@ -35,7 +35,9 @@ type ActionsType = RemoveTaskActionType | AddTaskActionType
     | AddTodolistActionType
     | RemoveTodolistActionType
 
-const initialState: TasksStateType = {}
+const initialState: TasksStateType = {
+    count: []
+}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
@@ -47,25 +49,31 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return stateCopy;
         }
         case 'ADD-TASK': {
+            const stateCopy = {...state}
             const newTask: TaskType = {
                 id: v1(),
                 title: action.title,
                 isDone: false
             }
-
-            return {...state, [action.todolistId]:[...state[action.todolistId], newTask]};
+            const tasks = stateCopy[action.todolistId];
+            const newTasks = [newTask, ...tasks];
+            stateCopy[action.todolistId] = newTasks;
+            return stateCopy;
         }
         case 'CHANGE-TASK-STATUS': {
-            return {...state, [action.todolistId]:state[action.todolistId].map(m=> m.id === action.taskId?{...m, isDone:action.isDone}:m)};
+            let todolistTasks = state[action.todolistId];
+            state[action.todolistId] = todolistTasks
+                .map(t => t.id === action.taskId
+                    ? {...t, isDone: action.isDone}
+                    : t);
+            return ({...state});
         }
         case 'CHANGE-TASK-TITLE': {
             let todolistTasks = state[action.todolistId];
-            // найдём нужную таску:
-            let task = todolistTasks.find(t => t.id === action.taskId);
-            //изменим таску, если она нашлась
-            if (task) {
-                task.title = action.title;
-            }
+            state[action.todolistId] = todolistTasks
+                .map(t => t.id === action.taskId
+                    ? {...t, title: action.title}
+                    : t);
             return ({...state});
         }
         case 'ADD-TODOLIST': {

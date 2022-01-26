@@ -3,8 +3,8 @@ import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from './AddItemForm';
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
-import {Menu} from '@mui/icons-material';
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
+import {Menu} from '@material-ui/icons';
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistType = {
@@ -142,6 +142,13 @@ function App() {
                         todolists.map(tl => {
                             let allTodolistTasks = tasks[tl.id];
                             let tasksForTodolist = allTodolistTasks;
+
+                            if (tl.filter === "active") {
+                                tasksForTodolist = allTodolistTasks.filter(t => t.isDone === false);
+                            }
+                            if (tl.filter === "completed") {
+                                tasksForTodolist = allTodolistTasks.filter(t => t.isDone === true);
+                            }
 
                             return <Grid item>
                                 <Paper style={{padding: "10px"}}>
