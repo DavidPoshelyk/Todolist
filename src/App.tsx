@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { Menu } from '@mui/icons-material';
 import {
-    addTodolistAC,
+    addTodolistThunk,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
     FilterValuesType,
@@ -72,7 +72,7 @@ function App() {
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-        const action = addTodolistAC(title);
+        const action = addTodolistThunk(title);
         dispatch(action);
     }, [dispatch]);
 
