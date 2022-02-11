@@ -20,7 +20,7 @@ import {
     TodolistDomainType
 } from './state/todolists-reducer'
 import {
-    createTasksTC,
+    createTasksThunk,
     removeTaskThunk, updateTask
 } from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
@@ -45,7 +45,7 @@ function App() {
     }, []);
 
     const addTask = useCallback(function (title: string, todolistId: string) {
-        const action = createTasksTC(title, todolistId);
+        const action = createTasksThunk(title, todolistId);
         dispatch(action);
     }, []);
 
