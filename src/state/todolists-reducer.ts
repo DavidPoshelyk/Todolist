@@ -68,10 +68,10 @@ export const todolistsReducer = (state:Array<TodolistDomainType> = initialState,
 }
 
 //action
-export const removeTodolistAC = (todolistId: string) => {
+ const removeTodolistAC = (todolistId: string) => {
     return {type: 'REMOVE-TODOLIST',  todolistId} as const
 }
- const addTodolistAC = (todolist: TodolistType) => {
+const addTodolistAC = (todolist: TodolistType) => {
     return {type: 'ADD-TODOLIST',todolist} as const
 }
 export const changeTodolistTitleAC = (id: string, title: string) => {
@@ -106,6 +106,17 @@ export const addTodolistThunk = (title:string) => {
     }
 
 
+}
+export const removeTodolistThunk = (todolistId:string)=> {
+    return (dispatch:Dispatch) => {
+        todolistsAPI.deleteTodolist(todolistId)
+            .then((res)=>{
+                if(res.data.resultCode === 0){
+                    dispatch(removeTodolistAC(todolistId))
+                }
+
+            })
+    }
 }
 
 
