@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import {Menu} from '@mui/icons-material';
 import {TaskType} from './api/todolists-api'
-import Todolists from "./Todolists";
+import TodoLists from "./Todolists";
 
 
 export type TasksStateType = {
@@ -31,7 +31,7 @@ function App() {
                 </Toolbar>
             </AppBar>
             <Container fixed>
-                <Todolists/>
+                <TodoLists/>
             </Container>
         </div>
     );

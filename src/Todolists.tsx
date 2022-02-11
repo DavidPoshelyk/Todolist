@@ -16,7 +16,7 @@ import Paper from "@mui/material/Paper";
 import {Todolist} from "./Todolist";
 import {AddItemForm} from "./AddItemForm";
 
-const Todolists = () => {
+const TodoLists = () => {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
     const dispatch = useDispatch();
@@ -73,7 +73,6 @@ const Todolists = () => {
             <Grid container spacing={3}>
                 {todolists && todolists.map(tl => {
                     let allTodolistTasks = tasks[tl.id];
-
                     return <Grid item key={tl.id}>
                         <Paper style={{padding: '10px'}}>
                             <Todolist
@@ -98,4 +97,4 @@ const Todolists = () => {
     );
 };
 
-export default Todolists;
+export default TodoLists;
