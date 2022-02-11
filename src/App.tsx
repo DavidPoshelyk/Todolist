@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react'
 import './App.css';
-import { Todolist } from './Todolist';
-import { AddItemForm } from './AddItemForm';
+import {Todolist} from './Todolist';
+import {AddItemForm} from './AddItemForm';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { Menu } from '@mui/icons-material';
+import {Menu} from '@mui/icons-material';
 import {
     addTodolistThunk,
     changeTodolistFilterAC,
@@ -20,13 +20,11 @@ import {
     TodolistDomainType
 } from './state/todolists-reducer'
 import {
-    changeTaskStatusAC,
-    changeTaskTitleAC,
     createTasksTC,
-    removeTaskThunk
+    removeTaskThunk, updateTask
 } from './state/tasks-reducer';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppRootStateType } from './state/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppRootStateType} from './state/store';
 import {TaskStatuses, TaskType, todolistsAPI} from './api/todolists-api'
 
 
@@ -41,8 +39,8 @@ function App() {
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
     const dispatch = useDispatch();
 
-    const removeTask = useCallback(function (todolistId: string,taskId: string) {
-        const action = removeTaskThunk(todolistId,taskId);
+    const removeTask = useCallback(function (todolistId: string, taskId: string) {
+        const action = removeTaskThunk(todolistId, taskId);
         dispatch(action);
     }, []);
 
@@ -51,13 +49,13 @@ function App() {
         dispatch(action);
     }, []);
 
-    const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
-        const action = changeTaskStatusAC(id, status, todolistId);
+    const changeStatus = useCallback(function (taskId: string, status: TaskStatuses, todolistId: string) {
+        const action = updateTask(taskId, {status}, todolistId);
         dispatch(action);
     }, []);
 
     const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-        const action = changeTaskTitleAC(id, newTitle, todolistId);
+        const action = updateTask(id, {title: newTitle}, todolistId);
         dispatch(action);
     }, []);
 
@@ -81,7 +79,7 @@ function App() {
         dispatch(action);
     }, [dispatch]);
 
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(setTodolistsThunk())
     }, [])
 
@@ -104,7 +102,7 @@ function App() {
                 </Grid>
                 <Grid container spacing={3}>
                     {
-                        todolists &&  todolists.map(tl => {
+                        todolists && todolists.map(tl => {
                             let allTodolistTasks = tasks[tl.id];
 
                             return <Grid item key={tl.id}>
