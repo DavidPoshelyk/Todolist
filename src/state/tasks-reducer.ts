@@ -39,33 +39,21 @@ const initialState: TasksStateType = {
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK': {
-            const stateCopy = {...state}
-            const tasks = stateCopy[action.todolistId];
-            const newTasks = tasks.filter(t => t.id !== action.taskId);
-            stateCopy[action.todolistId] = newTasks;
-            return stateCopy;
+            return {...state, [action.todolistId]: state[action.todolistId].filter(f=> f.id !== action.taskId)};
         }
         case 'ADD-TASK': {
-            const stateCopy = {...state}
-            const tasks = stateCopy[action.task.todoListId];
-            const newTasks = [action.task, ...tasks];
-            stateCopy[action.task.todoListId] = newTasks;
-            return stateCopy;
+            return {...state, [action.task.todoListId]:[...state[action.task.todoListId], action.task]};
 
         }
         case 'SET-TODOLISTS': {
             const stateCopy = {...state}
-            action.todolists.forEach((tl) => {
-                stateCopy[tl.id] = []
-            })
+            action.todolists.forEach((tl) => {stateCopy[tl.id] = []})
             return stateCopy;
         }
 
         case 'UPDATE-TASK': {
-            return {
-                ...state, [action.todolistId]: state[action.todolistId]
-                    .map(m => m.id === action.taskId? (action.task) : (m))
-            }
+            return {...state, [action.todolistId]: state[action.todolistId]
+                    .map(m => m.id === action.taskId? (action.task) : (m))}
         }
         case 'ADD-TODOLIST': {
             return {
@@ -113,7 +101,7 @@ export const fetchTasksThunk = (todolistId: string) => {
             })
     }
 }
-export const createTasksThunk = (title: string, todolistId: string,) => {
+export const addTasksThunk = (title: string, todolistId: string,) => {
     return (dispatch: Dispatch) => {
         todolistsAPI.createTask(todolistId, title)
             .then((res) => {
