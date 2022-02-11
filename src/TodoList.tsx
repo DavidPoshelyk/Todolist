@@ -7,7 +7,7 @@ import { Delete } from '@mui/icons-material';
 import {Task} from './Task'
 import {TaskStatuses, TaskType} from './api/todolists-api'
 import {FilterValuesType} from './state/todolists-reducer'
-import {fetchTasksTC} from "./state/tasks-reducer";
+import {fetchTasksThunk} from "./state/tasks-reducer";
 import {useDispatch} from "react-redux";
 
 type PropsType = {
@@ -55,7 +55,7 @@ export const Todolist = React.memo(function (props: PropsType) {
 
 
     useEffect(()=>{
-        dispatch(fetchTasksTC(props.id))
+        dispatch(fetchTasksThunk(props.id))
     },[])
 
     return <div>
@@ -66,8 +66,7 @@ export const Todolist = React.memo(function (props: PropsType) {
         </h3>
         <AddItemForm addItem={addTask}/>
         <div>
-            {
-                tasksForTodolist.map(t => <Task key={t.id} task={t} todolistId={props.id}
+            {tasksForTodolist.map(t => <Task key={t.id} task={t} todolistId={props.id}
                                           removeTask={props.removeTask}
                                           changeTaskTitle={props.changeTaskTitle}
                                           changeTaskStatus={props.changeTaskStatus}

@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+import { UpdateTaskModelTypeThunk } from '../state/tasks-reducer';
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
@@ -31,8 +32,8 @@ export const todolistsAPI = {
     createTask(todolistId: string, title: string) {
         return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks`, {title});
     },
-    updateTask(taskId: string, todolistId: string, model: any) {
-        return instance.put<any, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks/${taskId}`, model);
+    updateTask(taskId: string, todolistId: string, model:UpdateTaskModelTypeThunk) {
+        return instance.put<UpdateTaskModelTypeThunk, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks/${taskId}`, model);
     }
 }
 

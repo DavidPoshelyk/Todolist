@@ -163,7 +163,7 @@ export const updateTask = (taskId: string, newModel: UpdateTaskModelTypeThunk, t
 
 }
 
-type UpdateTaskModelTypeThunk = {
+ export type UpdateTaskModelTypeThunk = {
     title?: string
     description?: string
     status?: TaskStatuses
