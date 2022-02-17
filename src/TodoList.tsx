@@ -9,6 +9,7 @@ import {TaskStatuses, TaskType} from './api/todolists-api'
 import {FilterValuesType} from './state/todolists-reducer'
 import {fetchTasksThunk} from "./state/tasks-reducer";
 import {useDispatch} from "react-redux";
+import LinearProgress from "@mui/material/LinearProgress/LinearProgress";
 
 type PropsType = {
     id: string
