@@ -1,26 +1,21 @@
 import React from 'react'
-import './App.css';
+import './App.css'
+import { TodolistsList } from '../features/TodolistsList/TodolistsList'
+
+// You can learn about the difference by reading this guide on minimizing bundle size.
+// https://mui.com/guides/minimizing-bundle-size/
+// import { AppBar, Button, Container, IconButton, Toolbar, Typography } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import {Menu} from '@mui/icons-material';
-import {TaskType} from './api/todolists-api'
-import TodoLists from "./Todolists";
-import LinearProgress from '@mui/material/LinearProgress/LinearProgress';
-import {AppBar} from "@mui/material";
-import {useSelector} from "react-redux";
-import {ErrorSnackbar} from "./ErrorSnackbar/ErrorSnackbar";
-
-
-export type TasksStateType = {
-    [key: string]: Array<TaskType>
-}
+import { Menu } from '@mui/icons-material';
 
 
 function App() {
-    const status = useSelector<any, any>(state=> state.app.status )
+
     return (
         <div className="App">
             <AppBar position="static">
@@ -33,14 +28,12 @@ function App() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
-                {status === 'loading' && <LinearProgress color="inherit" />}
             </AppBar>
             <Container fixed>
-                <TodoLists/>
+                <TodolistsList/>
             </Container>
-            <ErrorSnackbar/>
         </div>
-    );
+    )
 }
 
-export default App;
+export default App
